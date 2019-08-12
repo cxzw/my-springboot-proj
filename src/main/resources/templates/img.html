@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://libs.baidu.com/jquery/2.1.1/jquery.min.js"></script>
+    <!--<script src="/css/js/jquery-3.4.1.js"></script>-->
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.css" type="text/css">
+
+    <meta charset="UTF-8">
+    <title>图片上传</title>
+</head>
+<body>
+
+<input type="file" id="pic" ><br>
+<button id="btn" type="submit" class="btn btn-lg btn-primary">保存图片</button>
+
+<script type="text/javascript">
+    var image = $(":file");
+    var id = window.location.search.substring(4);
+    //处理file input加载的图片文件
+    $(document).ready(function() {
+        {
+            $("#pic").change(function(e){
+                file = e.target.files.item(0);
+
+                console.log(id)
+            });
+            $("#btn").click(function () {
+                var formData = new FormData();
+                var id = window.location.search.substring(4);
+                console.log(image);
+                formData.append("image",file);
+                formData.append("id",id);
+                $.ajax({
+                    url:'/uploadimg',
+                    dataType:'json',
+                    type:'POST',
+                    async: false,
+                    data: formData,
+                    processData : false, // 使数据不做处理
+                    contentType : false, // 不要设置Content-Type请求头
+                    success: function(data){
+                        console.log(data);
+                        if (data.status == 'yes') {
+                            alert('上传成功！');
+                        }
+
+                    }
+                });
+            });
+        }
+    });
+
+</script>
+</body>
+</html>

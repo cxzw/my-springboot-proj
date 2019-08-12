@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <script src="https://libs.baidu.com/jquery/2.1.1/jquery.min.js"></script>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<!--    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>-->
+    <!-- Custom styles for this template -->
+    <link href="/css/signin.css" rel="stylesheet" type="text/css">
+
+</head>
+<body class="text-center">
+<div class="form-signin">
+<!--<form >-->
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <label for="username" class="sr-only">username</label>
+    <input type="username" id="username" class="form-control" placeholder="UserName" required autofocus>
+    <label for="password" class="sr-only">Password</label>
+    <input type="password" id="password" class="form-control" placeholder="Password" required>
+    <button id="signin" class="btn btn-lg btn-primary btn-block">Sign in</button>
+    <p class="mt-5 mb-3 text-muted">&copy; 2049-2077</p>
+</div>
+
+<script>
+
+    $('#signin').click(function(){
+        var username = $('#username').val();
+        var password = $('#password').val();
+        console.log(username)
+        console.log(password)
+        // 判断用户名\密码的正确性
+        $.ajax({
+            url:'/addlogin',
+            method:'post',
+            data:{username:username,password:password},
+            dataType:'json',
+            success:function(response){
+                console.log(response);
+                if (response.statusCode == "777"){
+                    alert(response.message);
+                    $('#username').val("")
+                }
+                if (response.statusCode == "666") {
+                    alert(response.message);
+                    $('#password').val("")
+                }if (response.statusCode == "200"){
+                    location.href="/success";
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

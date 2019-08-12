@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://libs.baidu.com/jquery/2.1.1/jquery.min.js"></script>
+    <!--<script src="/css/js/jquery-3.4.1.js"></script>-->
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.css" type="text/css">
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div align="center">
+    <div class="panel-body">
+        <form method="post" id="addForm" action="admin_category_add" enctype="multipart/form-data">
+            <table class="addTable">
+                <tr>
+                    <td>项目名称</td>
+                    <td><input  id="projname" type="text" class="form-control" required autofocus></td>
+                </tr>
+                <tr>
+                    <td>项目时间</td>
+                    <td><input  id="projdate" type="text" class="form-control"></td>
+                </tr>
+                <tr>
+                    <td>项目图片</td>
+                    <td>
+                        <input type="file" id="pic" >
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <button type="button" class="btn btn-lg btn-primary" id="addproj">提 交</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<script>
+
+    $("#pic").change(function(e){
+        file = e.target.files.item(0);
+    });
+
+    $('#addproj').click(function () {
+        var formData = new FormData();
+        var projname = $('#projname').val();
+        var projdate = $('#projdate').val();
+        var image = $(":file");
+        console.log(projname);
+        console.log(projdate);
+        console.log(image);
+
+        formData.append("projname",projname);
+        formData.append("projdate",projdate);
+        formData.append("image",file);
+
+        $.ajax({
+            url:'/addProject',
+            dataType:'json',
+            type:'POST',
+            async: false,
+            data: formData,
+            processData : false, // 使数据不做处理
+            contentType : false, // 不要设置Content-Type请求头
+            success:function (response) {
+                console.log(response);
+                if (response.statusCode == "999"){
+                    alert(response.message);
+                    window.location.href = "/success";
+                } else {
+                    alert(response.message);
+                }
+            }
+        })
+    })
+</script>
+</body>
+</html>
